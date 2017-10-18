@@ -9,30 +9,35 @@ namespace Random52Numbers
     public class ListOperation
     {
         private List<int> _myList;
+        private Validator _validator;
+
         public List<int> myList {
             get { return _myList; }
         }
-
         public ListOperation()
         {
+            _validator = new Validator();
             _myList = new List<int>();
         }
+
+        private int Limit(int low, int high)
+        {
+            return high - (low - 1);
+        }
+
         private int GiveMeANumber(int low, int high)
         {
             var exclude = myList;
-            var range = Enumerable.Range(low, high - (low - 1)).Where(i => !exclude.Contains(i));
+            var range = Enumerable.Range(low, Limit(low,high)).Where(i => !exclude.Contains(i));
             var rand = new System.Random();
-            int index = rand.Next(0, (high - (low - 1)) - exclude.Count);
+            int index = rand.Next(0, (Limit(low, high)) - exclude.Count);
             return range.ElementAt(index);
         }
 
         public void PopulateList(int low, int high)
         {
-            Validator validator = new Validator();
-            if (validator.IntRangeValidator(low, high) == 0)
-            {
+            if (_validator.IntRangeValidator(low, high) == 0)
                 return;
-            }
 
             if (_myList.Count >= (high - (low - 1)))
                 return;
