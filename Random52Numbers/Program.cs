@@ -11,7 +11,7 @@ class Program
         static void Main(string[] args)
         {
             ListOperation listOperation = new ListOperation();
-            listOperation.PopulateList(1,200);
+            listOperation.PopulateList(-10,10);
             List<int> myList = listOperation.myList;
             foreach (int x in myList)
             {

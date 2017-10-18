@@ -20,15 +20,21 @@ namespace Random52Numbers
         private int GiveMeANumber(int low, int high)
         {
             var exclude = myList;
-            var range = Enumerable.Range(low, high).Where(i => !exclude.Contains(i));
+            var range = Enumerable.Range(low, high - (low - 1)).Where(i => !exclude.Contains(i));
             var rand = new System.Random();
-            int index = rand.Next(0, high - exclude.Count);
+            int index = rand.Next(0, (high - (low - 1)) - exclude.Count);
             return range.ElementAt(index);
         }
 
         public void PopulateList(int low, int high)
         {
-            if (_myList.Count > (high - 1))
+            Validator validator = new Validator();
+            if (validator.IntRangeValidator(low, high) == 0)
+            {
+                return;
+            }
+
+            if (_myList.Count >= (high - (low - 1)))
                 return;
 
             _myList.Add(GiveMeANumber(low, high));
